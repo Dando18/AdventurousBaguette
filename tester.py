@@ -60,7 +60,7 @@ class Tester:
 
             # then build
             try:
-                self.repo.build()
+                self.build()
             except:
                 vprint(self.verbose, 'Failed to build for hash \'{}\''.format(git_hash))
 
