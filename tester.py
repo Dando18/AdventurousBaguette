@@ -52,7 +52,8 @@ class Tester:
         # determine how to traverse hashes
         iter = get_hash_iterator(traversal_type=profile_settings['traversal'])
 
-        # do the search
+        # do the traversal
+        self.profiles_by_hash = {}
         for git_hash in iter(self.repo.get_hashes()):
             # first checkout this version of the code
             self.repo.checkout_hash(git_hash)
@@ -63,9 +64,9 @@ class Tester:
             except:
                 vprint(self.verbose, 'Failed to build for hash \'{}\''.format(git_hash))
 
-
             # now do the profiling
-            profiler.profile(self.repo)
+            prof = profiler.profile(self.repo)
+            self.profiles_by_hash[git_hash] = prof
 
         # step back out of repo
         sh.cd('..')
