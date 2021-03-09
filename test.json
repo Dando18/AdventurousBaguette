@@ -28,7 +28,7 @@
             "profiler": "gprof",
             "flags": "",
             "workspace": "",
-            "search": "exhaustive"
+            "traversal": "linear"
         }
     }
 ]

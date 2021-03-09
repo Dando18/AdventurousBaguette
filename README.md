@@ -32,7 +32,7 @@ It uses JSON files to specify most of the settings. For example:
             "profiler": "hpctoolkit", // how to profile (hpctoolkit or gprof)
             "flags": "",
             "workspace": "",
-            "search": "exhaustive"  // how to search commits listed (exhaustive, random, or binary)
+            "traversal": "linear"  // how to iterate commits listed (linear, random, or binary)
         }
     }
 ]

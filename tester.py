@@ -8,14 +8,18 @@ from profiler import get_profiler
 from util import vprint
 
 
-def exaustive_iterator(items):
+def linear_iterator(items):
     for item in items:
         yield item
 
 
-def get_hash_iterator(search_type='exhaustive'):
-    if search_type == 'exhaustive':
-        return exaustive_iterator
+def get_hash_iterator(traversal_type='linear'):
+    if traversal_type == 'linear':
+        return linear_iterator
+    elif traversal_type == 'random':
+        return linear_iterator
+    else:
+        return linear_iterator
 
 
 class Tester:
@@ -45,8 +49,8 @@ class Tester:
         # create the initial profiler
         profiler = get_profiler(profile_settings, self.verbose)
 
-        # determine how to search hashes
-        iter = get_hash_iterator(search_type=profile_settings['search'])
+        # determine how to traverse hashes
+        iter = get_hash_iterator(traversal_type=profile_settings['traversal'])
 
         # do the search
         for git_hash in iter(self.repo.get_hashes()):
