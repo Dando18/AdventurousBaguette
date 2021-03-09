@@ -1,0 +1,34 @@
+[
+    {
+        "repo": {
+            "url": "https://github.com/lanl/PENNANT.git",
+            "path": "",
+            "hashes": [
+                "d7b770ecd5cc75bbb768554fcd9b2977e65b6e06",
+                "3d03be25050fc8d9bfad0db91b124a4799bfa8bb",
+                "b6f31015f1f30a3fad6728e65df50c9be20d88b6"
+            ],
+            "build": {
+                "commands": [
+                    "make clean",
+                    "make CXX=g++ CXXFLAGS='-g -pg -O3 -Ofast' CXXFLAGS_OPENMP='-fopenmp'"
+                ]
+            },
+            "tests": [
+                {
+                    "name": "noh",
+                    "executable": "pennant",
+                    "prefix": "build",
+                    "args": "tests/noh/noh.pnt",
+                    "mpi": "false"
+                }
+            ]
+        },
+        "profile": {
+            "profiler": "gprof",
+            "flags": "",
+            "workspace": "",
+            "search": "exhaustive"
+        }
+    }
+]
