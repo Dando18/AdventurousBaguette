@@ -9,18 +9,18 @@ It uses JSON files to specify most of the settings. For example:
 [
     {
         "repo": {
-            "url": "",  # give one of these two to specify a git repo
+            "url": "",  // give one of these two to specify a git repo
             "path": "",
-            "hashes": ["", "", ""], # give a list of commit hashes to search over (or "last x" for last x commits)
+            "hashes": ["", "", ""], // give a list of commit hashes to search over (or "last x" for last x commits)
             "build": {
                 "commands": [
-                    "make clean",  # specify how to build 
+                    "make clean",  // specify how to build 
                     "make"
                 ]
             },
             "tests": [
                 {
-                    "name": "",       # specify an executable to run and measure
+                    "name": "",       // specify an executable to run and measure
                     "executable": "",
                     "prefix": "",
                     "args": "",
@@ -29,10 +29,10 @@ It uses JSON files to specify most of the settings. For example:
             ]
         },
         "profile": {
-            "profiler": "hpctoolkit", # how to profile (hpctoolkit or gprof)
+            "profiler": "hpctoolkit", // how to profile (hpctoolkit or gprof)
             "flags": "",
             "workspace": "",
-            "search": "exhaustive"  # how to search commits listed (exhaustive, random, or binary)
+            "search": "exhaustive"  // how to search commits listed (exhaustive, random, or binary)
         }
     }
 ]
