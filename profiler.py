@@ -70,9 +70,11 @@ class HPCToolkitProfiler(Profiler):
     def __init__(self, profiler_settings, verbose=False):
         super().__init__(profiler_settings, verbose)
 
-        self.hpcrun_cmd = Command('hpcrun -e WALLCLOCK@5000')
+        self.hpcrun_cmd = Command('hpcrun')
+        self.hpcrun_cmd = self.hpcrun_cmd.bake('-e', 'WALLCLOCK@5000')
         self.hpcstruct_cmd = Command('hpcstruct')
-        self.hpcprof_cmd = Command('mpirun -np 1 hpcprof-mpi --metric-db yes')
+        self.hpcprof_cmd = Command('mpirun')
+        self.hpcprof_cmd = self.hpcprof_cmd.bake('-np', '1', 'hpcprof-mpi',  '--metric-db', 'yes')
 
     def profile(self, repo):
         profiles = {}
