@@ -16,7 +16,7 @@ class Repo:
         vprint(self.verbose, 'Cloning \'{}\'...'.format(self.repo_settings['url']))
         git.clone(self.repo_settings['url'])
 
-    def repo_name(self):
+    def name(self):
         return str(basename(self.repo_settings['url'], '.git')).strip()
 
     def get_hashes(self):

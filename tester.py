@@ -44,7 +44,7 @@ class Tester:
 
     def profile(self, profile_settings):
         # cd into repo
-        sh.cd(self.repo.repo_name())
+        sh.cd(self.repo.name())
 
         # create the initial profiler
         profiler = get_profiler(profile_settings, self.verbose)
