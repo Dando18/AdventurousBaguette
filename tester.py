@@ -43,7 +43,7 @@ class Tester:
         sh.cd(self.repo.repo_name())
 
         # create the initial profiler
-        profiler = get_profiler(profile_settings)
+        profiler = get_profiler(profile_settings, self.verbose)
 
         # determine how to search hashes
         iter = get_hash_iterator(search_type=profile_settings['search'])
