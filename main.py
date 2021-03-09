@@ -43,6 +43,7 @@ def main():
 
         if setup_successful:
             tester.profile(application["profile"])
+            tester.print_summary()
         else:
             vprint(args.verbose, 'Failed to setup \'{}\'. Skipping tests...'.format(application['repo']['url']))
 
