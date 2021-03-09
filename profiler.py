@@ -2,7 +2,8 @@
 Daniel Nichols
 March 2021
 '''
-from sh import Command
+from sh import Command, rm
+import hatchet as ht
 import os
 from util import vprint
 
@@ -64,11 +65,54 @@ class GProfProfiler(Profiler):
         return profiles
 
 
+
 class HPCToolkitProfiler(Profiler):
     def __init__(self, profiler_settings, verbose=False):
         super().__init__(profiler_settings, verbose)
 
-    def profile(self):
-        pass
+        self.hpcrun_cmd = Command('hpcrun -e WALLCLOCK@5000')
+        self.hpcstruct_cmd = Command('hpcstruct')
+        self.hpcprof_cmd = Command('mpirun -np 1 hpcprof-mpi --metric-db yes')
+
+    def profile(self, repo):
+        profiles = {}
+        for test in repo.itertests():
+            vprint(self.verbose, 'Profiling test \'{}\'...'.format(test['name']))
+            exec_path = os.path.join(test['prefix'], test['executable'])
+
+            hpcstruct_name = '{}.hpcstruct'.format(test['name'])
+            hpcmeasurements_name = 'hpctoolkit-{}-measurements'.format(test['name'])
+            hpcdatabase_name = 'hpctoolkit-{}-database'.format(test['name'])
+
+            # try to generate hpcstruct
+            try:
+                self.hpcstruct_cmd(exec_path, '--output', hpcstruct_name)
+            except:
+                vprint(self.verbose, 'Failed to create hpcstruct file...')
+                continue
+
+            # run test
+            try:
+                self.hpcrun_cmd('--output', hpcmeasurements_name, exec_path, test['args'])
+            except:
+                vprint(self.verbose, 'Running test \'{}\' failed...'.format(test['name']))
+                continue
+
+            # generate profile
+            try:
+                self.hpcrun_cmd('--output', hpcmeasurements_name, exec_path, test['args'])
+                self.hpcprof_cmd('-S', hpcstruct_name, '-I', './+', '--output', hpcdatabase_name, hpcmeasurements_name)
+            except:
+                vprint(self.verbose, 'Running test \'{}\' failed...'.format(test['name']))
+                continue
+
+            # finally read hatchet profile
+            profiles[test['name']] = ht.GraphFrame.from_hpctoolkit(hpcdatabase_name)
+
+            # and now delete the leftover files/folders
+            rm('-r', hpcstruct_name, hpcmeasurements_name, hpcdatabase_name)
+
+        return profiles
+            
 
     
