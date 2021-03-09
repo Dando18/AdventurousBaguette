@@ -5,7 +5,7 @@ A tool to search git commits and identify changes in performance variation over 
 
 It uses JSON files to specify most of the settings. For example:
 
-```json
+```
 [
     {
         "repo": {
